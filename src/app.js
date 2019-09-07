@@ -6,6 +6,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
+const mysql = require('mysql');
+
 app.use(express.urlencoded({ extended: false }))
 
 module.exports = (db) => {
@@ -29,7 +31,10 @@ module.exports = (db) => {
                     reject(err)
                 }
                 else {
-                    db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {
+                    let query = 'SELECT * FROM ?? WHERE ?? = ?'
+                    let inserts = ['Rides','rideID',this.lastID]
+                    query = mysql.format(query,inserts)
+                    db.all(query, function (err, rows) {
                         if (err) {
                             reject(err)
                         }
@@ -90,7 +95,7 @@ module.exports = (db) => {
             }
 
             var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];
-
+            
             const result = await db.postAsync('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values)
             res.send(result)
 
@@ -104,7 +109,10 @@ module.exports = (db) => {
 
     app.get('/rides', async (req, res) => {
         try {
-            const result = await db.getAsync('SELECT * FROM Rides')
+            let query = 'SELECT * FROM ??'
+            let inserts = ['Rides']
+            query = mysql.format(query,inserts)
+            const result = await db.getAsync(query)
             if (result.length === 0) {
                 res.send({
                     error_code: 'RIDES_NOT_FOUND_ERROR',
@@ -130,7 +138,11 @@ module.exports = (db) => {
 
     app.get('/rides/:id', async (req, res) => {
         try {
-            const result = db.getAsync(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`)
+            let query = `SELECT * FROM ?? WHERE ??=?`
+            let inserts = ['Rides', 'rideID',+req.params.id]
+            query = mysql.format(query,inserts)
+            console.log(query, 'ini query');
+            const result = await db.getAsync(query)
             if(result.length === 0) {
                 return res.send({
                     error_code: 'RIDES_NOT_FOUND_ERROR',
