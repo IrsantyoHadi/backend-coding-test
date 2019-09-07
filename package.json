@@ -7,8 +7,10 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha tests",
-    "start": "node index.js"
+    "test": "nyc mocha tests",
+    "start": "node index.js",
+    "lint": "./node_modules/.bin/eslint",
+    "lint-fix": "npm run lint -- --fix"
   },
   "keywords": [
     "Xendit"
@@ -21,7 +23,9 @@
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "supertest": "^4.0.2"
   }
 }
