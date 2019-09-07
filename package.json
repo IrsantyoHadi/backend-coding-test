@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "artillery": "^1.6.0-28",
+    "chai": "^4.2.0",
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.2.0",
