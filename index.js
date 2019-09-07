@@ -3,6 +3,7 @@
 // const app = express();
 const port = 8010;
 
+const log = require('./winston');
 // const bodyParser = require('body-parser');
 // const jsonParser = bodyParser.json();
 
@@ -17,6 +18,6 @@ const buildSchemas = require("./src/schemas");
 db.serialize(() => {
     buildSchemas(db);
     app.listen(port, () =>
-    console.log(`App started and listening on port ${port}`)
+    log.info(`App started and listening on port ${port}`)
     );
 });
