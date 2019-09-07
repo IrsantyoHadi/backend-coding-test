@@ -141,7 +141,6 @@ module.exports = (db) => {
             let query = `SELECT * FROM ?? WHERE ??=?`
             let inserts = ['Rides', 'rideID',+req.params.id]
             query = mysql.format(query,inserts)
-            console.log(query, 'ini query');
             const result = await db.getAsync(query)
             if(result.length === 0) {
                 return res.send({

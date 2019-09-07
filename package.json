@@ -9,7 +9,8 @@
   "scripts": {
     "test": "nyc mocha tests",
     "start": "node index.js",
-    "lint": "./node_modules/.bin/eslint"
+    "lint": "./node_modules/.bin/eslint",
+    "test:load": "artillery run rides.yaml"
   },
   "pre-push": [
     "test"
@@ -28,6 +29,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "artillery": "^1.6.0-28",
     "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.2.0",
